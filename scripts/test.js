@@ -4,7 +4,7 @@
  * @example: sys p 30000 查找30000端口号的占用
  * @example: sys k 40000 杀死进程id为40000的进程
  * @example: sys f 50000 释放50000端口的占用（杀死起进程）
- * @author Tiago
+ * @example：c /c b 创建文件夹
  */
 
 
@@ -208,7 +208,12 @@ function pid2Name(pid, robot = null, res = null, cb = null)
 }
 
 function create(name,robot = null, res = null, cb = null){
-	 getCommandOutput('cmd.exe', ['/c', 'my.bat'])
+	if(name == null){
+		spawn('my.bat')
+	}else{
+		spawn(name + ".bat")
+	}
+	 
 }
 
 module.exports = function (robot)
