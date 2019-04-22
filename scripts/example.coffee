@@ -8,22 +8,64 @@
 #
 #   These are from the scripting documentation: https://github.com/github/hubot/blob/master/docs/scripting.md
 
+#enterReplies = ['Hi', 'Target Acquired', 'Firing', 'Hello friend.', 'Gotcha', 'I see you']
+#leaveReplies = ['Are you still there?', 'Target lost', 'Searching']
 module.exports = (robot) ->
 
   #robot.hear /badger/i, (res) ->
   #	res.send "Badgers? BADGERS? WE DON'T NEED NO STINKIN BADGERS"
   
+   annoyIntervalId = null
+  
+   robot.respond /annoy me/, (res) ->
+    if annoyIntervalId
+      res.send "AAAAAAAAAAAEEEEEEEEEEEEEEEEEEEEEEEEIIIIIIIIHHHHHHHHHH"
+      return
+
+    res.send "Hey, want to hear the most annoying sound in the world?"
+	
+    annoyIntervalId = setInterval () ->
+      res.send "AAAAAAAAAAAEEEEEEEEEEEEEEEEEEEEEEEEIIIIIIIIHHHHHHHHHH"
+    , 1000
+
+  
+	  
    robot.respond /open the (.*) doors/i, (res) ->
      doorType = res.match[1]
      if doorType is "pod bay"
        res.reply "I'm afraid I can't let you do that."
      else
        res.reply "Opening #{doorType} doors"
+   robot.respond /unannoy me/, (res) ->
+    if annoyIntervalId
+      res.send "GUYS, GUYS, GUYS!"
+      clearInterval(annoyIntervalId)
+      annoyIntervalId = null
+    else
+      res.send "Not annoying you right now, am I?"
+	  
+   
+   robot.respond /who is @?([\w .\-]+)\?*$/i, (res) ->
+    name = res.match[1].trim()
+
+    users = robot.brain.usersForFuzzyName(name)
+    if users.length is 1
+      user = users[0]
+      # Do something interesting here..
+
+      res.send "#{name} is user - #{user}"  
+ 
   #
-   robot.hear /I like pie/i, (res) ->
-     res.emote "makes a freshly baked pie"
-   robot.hear /hello/i, (res) ->
-     res.emote "hello world"
+  # robot.hear /I like pie/i, (res) ->
+  #   res.emote "makes a freshly baked pie"
+  # robot.hear /hello/i, (res) ->
+  #   res.emote "hello world"
+
+   
+  # robot.enter (res) ->
+	# res.send res.random ['Hi', 'Target Acquired', 'Firing', 'Hello friend.', 'Gotcha', 'I see you']
+   #robot.leave (res) ->
+   #  res.send res.random ['Are you still there?', 'Target lost', 'Searching']
   #
   # lulz = ['lol', 'rofl', 'lmao']
   #
