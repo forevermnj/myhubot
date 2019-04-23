@@ -208,7 +208,7 @@ function pid2Name(pid, robot = null, res = null, cb = null)
 }
 
 function create(name,robot = null, res = null, cb = null){
-	if(name == null){
+	if(name == null || name == ""){
 		spawn('my.bat')
 	}else{
 		spawn(name + ".bat")

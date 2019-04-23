@@ -1,1 +1,1 @@
-mkdir b
+mkdir testdir
